@@ -2,6 +2,7 @@ import os
 import discord
 from discord.ext import commands
 from dotenv import load_dotenv
+import asyncio
 
 load_dotenv()
 
@@ -23,19 +24,8 @@ async def on_command_error(ctx, error):
     else:
         raise error
 
-@bot.command()
-async def ping(ctx):
-    await ctx.send("Pong!")
+async def main():
+    await bot.load_extension("cogs.misc")
+    await bot.start(TOKEN)
 
-@bot.command()
-async def echo(ctx, *, mensagem: str):
-    await ctx.send(mensagem)
-
-@bot.command()
-async def about(ctx):
-    await ctx.send(
-        "Olá! Sou um bot desenvolvido na linguagem python.\n"
-        "Possuo funções simples, sendo um projeto pessoal para aprender discord.py e boas maneiras."
-    )
-
-bot.run(TOKEN)
+asyncio.run(main())
