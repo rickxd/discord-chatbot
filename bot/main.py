@@ -25,7 +25,17 @@ async def on_command_error(ctx, error):
         raise error
 
 async def main():
-    await bot.load_extension("cogs.misc")
+    for file in os.listdir(f"{os.path.realpath(os.path.dirname(__file__))}/cogs"):
+            if file.endswith(".py"):
+                extension = file[:-3]
+                try:
+                    await bot.load_extension(f"cogs.{extension}")
+                    print(f"Loaded extension '{extension}'")
+                except Exception as e:
+                    exception = f"{type(e).__name__}: {e}"
+                    print(
+                        f"Failed to load extension {extension}\n{exception}"
+                    )
     await bot.start(TOKEN)
 
 asyncio.run(main())
